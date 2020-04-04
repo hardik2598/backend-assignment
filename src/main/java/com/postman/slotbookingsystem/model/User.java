@@ -1,5 +1,6 @@
 package com.postman.slotbookingsystem.model;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
+@Builder
 @Table(name = "user")
 public class User {
     @Id
@@ -28,4 +30,9 @@ public class User {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<CalenderSlot> calenderSlots;
+
+    public void addCalenderSlot(CalenderSlot calenderSlot){
+        calenderSlot.setUser(this);
+        this.calenderSlots.add(calenderSlot);
+    }
 }
