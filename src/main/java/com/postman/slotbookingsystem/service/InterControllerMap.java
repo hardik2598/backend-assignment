@@ -27,4 +27,8 @@ public class InterControllerMap {
     public static User getActiveUser() {
         return activeUser;
     }
+
+    public static void setActiveUser(User activeUser) {
+        InterControllerMap.activeUser = activeUser;
+    }
 }
