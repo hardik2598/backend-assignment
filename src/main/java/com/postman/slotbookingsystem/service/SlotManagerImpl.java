@@ -13,13 +13,19 @@ import java.util.stream.Collectors;
 
 public class SlotManagerImpl implements SlotManager {
 
+    private static SlotManagerImpl slotManagerInstance = null;
     private User currentUser;
-
     private Set<CalenderSlot> calenderSlots;
 
-    public SlotManagerImpl(User currentUser) {
+    private SlotManagerImpl(User currentUser) {
         this.currentUser = currentUser;
         calenderSlots = this.currentUser.getCalenderSlots();
+    }
+
+    public static SlotManagerImpl getSlotManagerInstance(User currentUser) {
+        if (slotManagerInstance == null)
+            return new SlotManagerImpl(currentUser);
+        return slotManagerInstance;
     }
 
     private Set<CalenderSlot> getSlotsOfCurrentUser() {
