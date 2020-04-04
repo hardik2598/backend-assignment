@@ -39,8 +39,15 @@ public class LoginController {
         return "LogIn Failed";
     }
 
+    @RequestMapping("/error")
+    public String giveErrorMsg() {
+        return "Please Login to get required functionality done!!!!!!!!";
+    }
+
     @RequestMapping("/book-slot")
     public ModelAndView bookSlot(@RequestBody RequestSlot requestSlot) {
+        if (InterControllerMap.getActiveUser() == null)
+            return new ModelAndView("redirect:/postman/error");
         url2UrlMapping.put("/logged-in/book-slot", "/postman/book-slot");
         url2ObjectMapping.put("/postman/book-slot", requestSlot);
         return new ModelAndView("redirect:/logged-in/book-slot");
@@ -48,6 +55,8 @@ public class LoginController {
 
     @RequestMapping("/check-slot-availability")
     public ModelAndView checkSlotAvailability(@RequestBody RequestSlot requestSlot) {
+        if (InterControllerMap.getActiveUser() == null)
+            return new ModelAndView("redirect:/postman/error");
         url2UrlMapping.put("/logged-in/check-slot-availability", "/postman/check-slot-availability");
         url2ObjectMapping.put("/postman/check-slot-availability", requestSlot);
         return new ModelAndView("redirect:/logged-in/check-slot-availability");
@@ -55,6 +64,8 @@ public class LoginController {
 
     @RequestMapping("/mark-slot-available")
     public ModelAndView markSlotAvailable(@RequestBody RequestSlot requestSlot) {
+        if (InterControllerMap.getActiveUser() == null)
+            return new ModelAndView("redirect:/postman/error");
         url2UrlMapping.put("/logged-in/mark-slot-available", "/postman/mark-slot-available");
         url2ObjectMapping.put("/postman/mark-slot-available", requestSlot);
         return new ModelAndView("redirect:/logged-in/mark-slot-available");
@@ -62,6 +73,8 @@ public class LoginController {
 
     @RequestMapping("/mark-all-slot-available")
     public ModelAndView markAllSlotAvailable(@RequestBody RequestSlot requestSlot) {
+        if (InterControllerMap.getActiveUser() == null)
+            return new ModelAndView("redirect:/postman/error");
         url2UrlMapping.put("/logged-in/mark-all-slot-available", "/postman/mark-all-slot-available");
         url2ObjectMapping.put("/postman/mark-all-slot-available", requestSlot);
         return new ModelAndView("redirect:/logged-in/mark-all-slot-available");
@@ -69,6 +82,8 @@ public class LoginController {
 
     @RequestMapping("/get-all-available-slots")
     public ModelAndView getAllAvailableSlots(@RequestBody RequestSlot requestSlot) {
+        if (InterControllerMap.getActiveUser() == null)
+            return new ModelAndView("redirect:/postman/error");
         url2UrlMapping.put("/get-all-available-slots", "/logged-in/get-all-available-slotsv");
         url2ObjectMapping.put("/get-all-available-slots", requestSlot);
         return new ModelAndView("redirect:/logged-in/get-all-available-slots");
