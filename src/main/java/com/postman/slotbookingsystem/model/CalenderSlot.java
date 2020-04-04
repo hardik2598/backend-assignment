@@ -9,6 +9,7 @@ import java.time.LocalDate;
 @Setter
 @ToString
 @Entity
+@Builder
 @Table(name = "calenderSlot")
 public class CalenderSlot {
     @Id

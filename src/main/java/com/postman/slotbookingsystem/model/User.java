@@ -1,5 +1,6 @@
 package com.postman.slotbookingsystem.model;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
+@Builder
 @Table(name = "user")
 public class User {
     @Id

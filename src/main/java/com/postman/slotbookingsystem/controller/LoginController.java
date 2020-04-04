@@ -1,5 +1,6 @@
 package com.postman.slotbookingsystem.controller;
 
+import com.postman.slotbookingsystem.model.CalenderSlot;
 import com.postman.slotbookingsystem.model.RequestSlot;
 import com.postman.slotbookingsystem.model.RequestUser;
 import com.postman.slotbookingsystem.model.User;
@@ -13,7 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/postman")
@@ -37,6 +41,43 @@ public class LoginController {
             return "Successfully LoggedIn";
         }
         return "LogIn Failed";
+    }
+
+    @PostMapping("/register")
+    public String register(@RequestBody RequestUser requestUser) {
+        User activeUser = userRepository.findByUsername(requestUser.getUsername());
+        if (activeUser == null) {
+            User newUser = User.builder()
+                    .username(requestUser.getUsername())
+                    .password(requestUser.getPassword())
+                    .passwordConfirm(requestUser.getPassword())
+                    .build();
+            Set<CalenderSlot> slotSet = initialSlots(newUser);
+            newUser.setCalenderSlots(slotSet);
+            userRepository.save(newUser);
+            return "Successfully created User Account";
+        }
+        return "User Account Already Exists";
+    }
+
+    private Set<CalenderSlot> initialSlots(User user) {
+        Set<CalenderSlot> calenderSlot = new HashSet<>();
+        int nextYear = LocalDate.now().getYear() + 1;
+        LocalDate currentDate = LocalDate.now();
+        while (currentDate.getYear() != nextYear) {
+            for (int i = 0; i < 24; i++) {
+                CalenderSlot newCalenderSlot = CalenderSlot.builder()
+                        .slotDate(currentDate)
+                        .slotStartTime((i < 10 ? "0" + i : i) + ":00")
+                        .slotEndTime(((i + 1) < 10 ? "0" + (i + 1) : (i + 1)) + ":00")
+                        .slotStatus("unavailable")
+                        .user(user)
+                        .build();
+                calenderSlot.add(newCalenderSlot);
+            }
+            currentDate = currentDate.plusDays(1);
+        }
+        return calenderSlot;
     }
 
     @RequestMapping("/error")
