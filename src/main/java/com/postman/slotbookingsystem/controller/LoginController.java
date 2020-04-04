@@ -1,10 +1,10 @@
 package com.postman.slotbookingsystem.controller;
 
-import com.postman.slotbookingsystem.model.InterControllerMap;
 import com.postman.slotbookingsystem.model.RequestSlot;
 import com.postman.slotbookingsystem.model.RequestUser;
 import com.postman.slotbookingsystem.model.User;
 import com.postman.slotbookingsystem.repository.UserRepository;
+import com.postman.slotbookingsystem.service.InterControllerMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,16 +18,10 @@ import java.util.Map;
 @RestController
 @RequestMapping("/postman")
 public class LoginController {
-
-    private static User activeUser;
     @Autowired
     UserRepository userRepository;
     private Map<String, String> url2UrlMapping;
     private Map<String, Object> url2ObjectMapping;
-
-    public static User getActiveUser() {
-        return activeUser;
-    }
 
     @Bean
     public void mapInit() {
@@ -39,7 +33,7 @@ public class LoginController {
     public String login(@RequestBody RequestUser requestUser) {
         User activeUser = userRepository.findByUsername(requestUser.getUsername());
         if (activeUser.getPassword().equals(requestUser.getPassword())) {
-            this.activeUser = activeUser;
+            InterControllerMap.setActiveUser(activeUser);
             return "Successfully LoggedIn";
         }
         return "LogIn Failed";
@@ -47,29 +41,29 @@ public class LoginController {
 
     @RequestMapping("/book-slot")
     public ModelAndView bookSlot(@RequestBody RequestSlot requestSlot) {
-        url2UrlMapping.put("/book-slot", "/logged-in/book-slot");
-        url2ObjectMapping.put("/book-slot", requestSlot);
+        url2UrlMapping.put("/logged-in/book-slot", "/postman/book-slot");
+        url2ObjectMapping.put("/postman/book-slot", requestSlot);
         return new ModelAndView("redirect:/logged-in/book-slot");
     }
 
     @RequestMapping("/check-slot-availability")
     public ModelAndView checkSlotAvailability(@RequestBody RequestSlot requestSlot) {
-        url2UrlMapping.put("/check-slot-availability", "/logged-in/check-slot-availability");
-        url2ObjectMapping.put("/check-slot-availability", requestSlot);
+        url2UrlMapping.put("/logged-in/check-slot-availability", "/postman/check-slot-availability");
+        url2ObjectMapping.put("/postman/check-slot-availability", requestSlot);
         return new ModelAndView("redirect:/logged-in/check-slot-availability");
     }
 
     @RequestMapping("/mark-slot-available")
     public ModelAndView markSlotAvailable(@RequestBody RequestSlot requestSlot) {
-        url2UrlMapping.put("/mark-slot-available", "/logged-in/mark-slot-available");
-        url2ObjectMapping.put("/mark-slot-available", requestSlot);
+        url2UrlMapping.put("/logged-in/mark-slot-available", "/postman/mark-slot-available");
+        url2ObjectMapping.put("/postman/mark-slot-available", requestSlot);
         return new ModelAndView("redirect:/logged-in/mark-slot-available");
     }
 
     @RequestMapping("/mark-all-slot-available")
     public ModelAndView markAllSlotAvailable(@RequestBody RequestSlot requestSlot) {
-        url2UrlMapping.put("/mark-all-slot-available", "/logged-in/mark-all-slot-available");
-        url2ObjectMapping.put("/mark-all-slot-available", requestSlot);
+        url2UrlMapping.put("/logged-in/mark-all-slot-available", "/postman/mark-all-slot-available");
+        url2ObjectMapping.put("/postman/mark-all-slot-available", requestSlot);
         return new ModelAndView("redirect:/logged-in/mark-all-slot-available");
     }
 
