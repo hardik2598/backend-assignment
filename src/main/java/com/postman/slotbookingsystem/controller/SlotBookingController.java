@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/logged-in")
-public class ApplicationController {
+public class SlotBookingController {
 
     private User activeUser;
 
