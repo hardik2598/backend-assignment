@@ -9,6 +9,9 @@ import java.time.LocalDate;
 @Setter
 @ToString
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "calenderSlot")
 public class CalenderSlot {
     @Id
@@ -23,7 +26,7 @@ public class CalenderSlot {
 
     private String slotStatus;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 }
