@@ -7,7 +7,6 @@ import com.postman.slotbookingsystem.model.User;
 import com.postman.slotbookingsystem.repository.UserRepository;
 import com.postman.slotbookingsystem.service.InterControllerMap;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDate;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 @RestController
@@ -24,19 +22,11 @@ import java.util.Set;
 public class LoginController {
     @Autowired
     UserRepository userRepository;
-    private Map<String, String> url2UrlMapping;
-    private Map<String, Object> url2ObjectMapping;
-
-    @Bean
-    public void mapInit() {
-        url2UrlMapping = InterControllerMap.getUrl2UrlMapping();
-        url2ObjectMapping = InterControllerMap.getUrl2ObjectMapping();
-    }
 
     @PostMapping("/login")
     public String login(@RequestBody RequestUser requestUser) {
         User activeUser = userRepository.findByUsername(requestUser.getUsername());
-        if (activeUser.getPassword().equals(requestUser.getPassword())) {
+        if (activeUser != null && activeUser.getPassword().equals(requestUser.getPassword())) {
             InterControllerMap.setActiveUser(activeUser);
             return "Successfully LoggedIn";
         }
@@ -89,8 +79,8 @@ public class LoginController {
     public ModelAndView bookSlot(@RequestBody RequestSlot requestSlot) {
         if (InterControllerMap.getActiveUser() == null)
             return new ModelAndView("redirect:/postman/error");
-        url2UrlMapping.put("/logged-in/book-slot", "/postman/book-slot");
-        url2ObjectMapping.put("/postman/book-slot", requestSlot);
+        InterControllerMap.getUrl2UrlMapping().put("/logged-in/book-slot", "/postman/book-slot");
+        InterControllerMap.getUrl2ObjectMapping().put("/postman/book-slot", requestSlot);
         return new ModelAndView("redirect:/logged-in/book-slot");
     }
 
@@ -98,8 +88,8 @@ public class LoginController {
     public ModelAndView checkSlotAvailability(@RequestBody RequestSlot requestSlot) {
         if (InterControllerMap.getActiveUser() == null)
             return new ModelAndView("redirect:/postman/error");
-        url2UrlMapping.put("/logged-in/check-slot-availability", "/postman/check-slot-availability");
-        url2ObjectMapping.put("/postman/check-slot-availability", requestSlot);
+        InterControllerMap.getUrl2UrlMapping().put("/logged-in/check-slot-availability", "/postman/check-slot-availability");
+        InterControllerMap.getUrl2ObjectMapping().put("/postman/check-slot-availability", requestSlot);
         return new ModelAndView("redirect:/logged-in/check-slot-availability");
     }
 
@@ -107,8 +97,8 @@ public class LoginController {
     public ModelAndView markSlotAvailable(@RequestBody RequestSlot requestSlot) {
         if (InterControllerMap.getActiveUser() == null)
             return new ModelAndView("redirect:/postman/error");
-        url2UrlMapping.put("/logged-in/mark-slot-available", "/postman/mark-slot-available");
-        url2ObjectMapping.put("/postman/mark-slot-available", requestSlot);
+        InterControllerMap.getUrl2UrlMapping().put("/logged-in/mark-slot-available", "/postman/mark-slot-available");
+        InterControllerMap.getUrl2ObjectMapping().put("/postman/mark-slot-available", requestSlot);
         return new ModelAndView("redirect:/logged-in/mark-slot-available");
     }
 
@@ -116,8 +106,8 @@ public class LoginController {
     public ModelAndView markAllSlotAvailable(@RequestBody RequestSlot requestSlot) {
         if (InterControllerMap.getActiveUser() == null)
             return new ModelAndView("redirect:/postman/error");
-        url2UrlMapping.put("/logged-in/mark-all-slot-available", "/postman/mark-all-slot-available");
-        url2ObjectMapping.put("/postman/mark-all-slot-available", requestSlot);
+        InterControllerMap.getUrl2UrlMapping().put("/logged-in/mark-all-slot-available", "/postman/mark-all-slot-available");
+        InterControllerMap.getUrl2ObjectMapping().put("/postman/mark-all-slot-available", requestSlot);
         return new ModelAndView("redirect:/logged-in/mark-all-slot-available");
     }
 
@@ -125,8 +115,8 @@ public class LoginController {
     public ModelAndView getAllAvailableSlots(@RequestBody RequestSlot requestSlot) {
         if (InterControllerMap.getActiveUser() == null)
             return new ModelAndView("redirect:/postman/error");
-        url2UrlMapping.put("/get-all-available-slots", "/logged-in/get-all-available-slotsv");
-        url2ObjectMapping.put("/get-all-available-slots", requestSlot);
+        InterControllerMap.getUrl2UrlMapping().put("/logged-in/get-all-available-slots", "/postman/get-all-available-slots");
+        InterControllerMap.getUrl2ObjectMapping().put("/postman/get-all-available-slots", requestSlot);
         return new ModelAndView("redirect:/logged-in/get-all-available-slots");
     }
 }

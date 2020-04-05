@@ -1,17 +1,16 @@
 package com.postman.slotbookingsystem.model;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "user")
 public class User {
     @Id
@@ -28,6 +27,11 @@ public class User {
     @ManyToMany
     private Set<Role> roles;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<CalenderSlot> calenderSlots;
+
+    public void addCalenderSlot(CalenderSlot calenderSlot) {
+        calenderSlot.setUser(this);
+        this.calenderSlots.add(calenderSlot);
+    }
 }
