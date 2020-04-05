@@ -70,4 +70,11 @@ public class SlotBookingController {
         SlotManagerImpl slotManagerInstance = SlotManagerImpl.getSlotManagerInstance(InterControllerMap.getActiveUser());
         return slotManagerInstance.getAllAvailableSlotForDate(requestSlot.getSlotDate());
     }
+
+    @RequestMapping("/get-all-booked-slots")
+    public List<RequestSlot> getAllBookedSlots() {
+        RequestSlot requestSlot = (RequestSlot) InterControllerMap.getUrl2ObjectMapping().get(InterControllerMap.getUrl2UrlMapping().get("/logged-in/get-all-booked-slots"));
+        SlotManagerImpl slotManagerInstance = SlotManagerImpl.getSlotManagerInstance(InterControllerMap.getActiveUser());
+        return slotManagerInstance.getAllBookedSlotForDate(requestSlot.getSlotDate());
+    }
 }

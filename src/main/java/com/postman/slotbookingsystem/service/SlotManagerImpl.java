@@ -111,6 +111,15 @@ public class SlotManagerImpl implements SlotManager {
         }).map(calenderSlot -> buildRequestSlot(calenderSlot)).collect(Collectors.toList());
     }
 
+    @Override
+    public List<RequestSlot> getAllBookedSlotForDate(LocalDate date) {
+        calenderSlots = getSlotsOfCurrentUser();
+        return calenderSlots.stream().filter(calenderSlot -> {
+            return calenderSlot.getSlotDate().equals(date)
+                    && calenderSlot.getSlotStatus().equals("booked");
+        }).map(calenderSlot -> buildRequestSlot(calenderSlot)).collect(Collectors.toList());
+    }
+
     private RequestSlot buildRequestSlot(CalenderSlot calenderSlot) {
         return RequestSlot.builder()
                 .slotDate(calenderSlot.getSlotDate())

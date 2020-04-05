@@ -117,6 +117,15 @@ public class LoginController {
         return new ModelAndView("redirect:/logged-in/get-all-available-slots");
     }
 
+    @RequestMapping("/get-all-booked-slots")
+    public ModelAndView getAllBookedSlots(@RequestBody RequestSlot requestSlot) {
+        if (InterControllerMap.getActiveUser() == null)
+            return new ModelAndView("redirect:/postman/error");
+        InterControllerMap.getUrl2UrlMapping().put("/logged-in/get-all-booked-slots", "/postman/get-all-booked-slots");
+        InterControllerMap.getUrl2ObjectMapping().put("/postman/get-all-booked-slots", requestSlot);
+        return new ModelAndView("redirect:/logged-in/get-all-booked-slots");
+    }
+
     @GetMapping("/logout")
     public String logout(){
         InterControllerMap.setActiveUser(null);

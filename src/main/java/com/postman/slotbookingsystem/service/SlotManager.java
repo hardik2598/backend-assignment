@@ -15,4 +15,6 @@ public interface SlotManager {
     void markAllSlotsAvailable(LocalDate date);
 
     List<RequestSlot> getAllAvailableSlotForDate(LocalDate date);
+
+    List<RequestSlot> getAllBookedSlotForDate(LocalDate date);
 }
