@@ -7,10 +7,7 @@ import com.postman.slotbookingsystem.model.User;
 import com.postman.slotbookingsystem.repository.UserRepository;
 import com.postman.slotbookingsystem.service.InterControllerMap;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDate;
@@ -118,5 +115,11 @@ public class LoginController {
         InterControllerMap.getUrl2UrlMapping().put("/logged-in/get-all-available-slots", "/postman/get-all-available-slots");
         InterControllerMap.getUrl2ObjectMapping().put("/postman/get-all-available-slots", requestSlot);
         return new ModelAndView("redirect:/logged-in/get-all-available-slots");
+    }
+
+    @GetMapping("/logout")
+    public String logout(){
+        InterControllerMap.setActiveUser(null);
+        return "Logged Out Successfully!!!!!!!!!!";
     }
 }
