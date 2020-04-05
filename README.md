@@ -85,8 +85,20 @@ Please find the sample jsons for post api's as follows:
   -- Expected Behaviour: Endpoint accessible only if successfully logged in. 
                          User can know all the available slots for a given date.
                          
+8.) http://localhost:8080/postman/get-all-booked-slots or http://calenderslotbookingservice-env.eba-i9eycy2p.us-east-2.elasticbeanstalk.com/postman/get-all-booked-slots:
 
-8.) http://localhost:8080/postman/logout or http://calenderslotbookingservice-env.eba-i9eycy2p.us-east-2.elasticbeanstalk.com/postman/logout:
+  --  Description: Endpoint for getting all the booked slots of user for a given date.
+  --  Post Method
+  --  JSON: {
+              "slotDate": "2020-04-04",
+              "slotStartTime": "NA",
+              "slotEndTime": "NA"
+            }
+  -- Expected Behaviour: Endpoint accessible only if successfully logged in. 
+                         User can know all the booked slots for a given date.                         
+                         
+
+9.) http://localhost:8080/postman/logout or http://calenderslotbookingservice-env.eba-i9eycy2p.us-east-2.elasticbeanstalk.com/postman/logout:
 
   --  Description: Logout Endpoint.
   --  Get Method
